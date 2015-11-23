@@ -1,36 +1,67 @@
 package comp352_Assignment4;
 
 public class HashTable {
-
+	
+	private int MAX_SIZE_ARRAY = 101;
+	private int BUCKET_SIZE = 10;
+	int entryCount= 0;
+	String [][] hashTable;
+	Boolean quadratic;
 
 	
-	int tableSize= 100;
-	Hash [] hTable;
-	Hash [] vTable;
-	
-
-	public void HashTable(){
-		hTable = new Hash[100];
-		for(int i=0; i< 100; i++){
-			hTable[i] = null;
-		}
+	public HashTable(){
+		hashTable = new String[MAX_SIZE_ARRAY][BUCKET_SIZE];
+		System.out.println("new HashTable created");
+		quadratic = true;
 	}
+	
 	
 	// add entry to table
 	public void add(String key, String value) {
-
-		int i = hashFunc(key); // replace this with hash function
-
-		while (hTable[i] != null) {
-			hTable[i] = new Hash(key, value);
+		boolean addedValue = false;
+		int hashedKey = hashFunc(key); // replace this with hash function
+		
+			for(int j = 0; j< BUCKET_SIZE; j++){
+				System.out.println(j + " " + hashedKey);
+				if(hashTable[hashedKey][j]== null){
+					hashTable[hashedKey][j] = value;
+					addedValue = true;
+					break;
+				}
+			}
+			
+			if(addedValue == false){
+				if(quadratic)
+					QuadraticSort(Integer.toString(hashedKey), value);
+				else
+					DoubleSort(Integer.toString(hashedKey), value);
+			}
+			
+	}
+	
+	public void DoubleSort(String key, String value){
+		int hashedKey = hashFunc(key);
+		int doubleSort =(( 107 -(hashedKey % 103) % 101));
+		
+		boolean addedValue = false;
+		int newKey;
+		int i =1;  
+		
+		while(addedValue==false){
+			
+			for(int j = 0; j< BUCKET_SIZE; j++){
+				newKey = (doubleSort*i + hashedKey) % MAX_SIZE_ARRAY;
+				System.out.println(j + " " + key);
+				if(hashTable[newKey][j]== null){
+					hashTable[newKey][j] = value;
+					addedValue = true;
+					break;
+				}
+			}
+			i++;
 		}
-
-		System.out.println(" Key is: " + i + " and value is: " + value);
-
-		// add methods here for collision
-		// double
-		// qaudratic
-
+		
+		
 	}
 	
 	public void search(String value){
@@ -54,16 +85,6 @@ public class HashTable {
 		 * index
 		 * 
 		 */
-
-		int j = hashFunc(value);
-
-		for (int i = 0; i < tableSize; i++) {
-			if (hTable[i].equals(j)) {
-				System.out.println("Found " + value + " at: " + i);
-			} else
-				System.out.println("Non existence value");
-		}
-
 	}
 	
 	public int hashFunc(String value){
@@ -76,24 +97,39 @@ public class HashTable {
 		for(int i = 0; i< length; i++){
 			code = code + ((value.charAt(i)) * (length-i));
 			//code = (((4307*code)+997) % 43977) % 43979 ;
-			System.out.println(code);
+			//System.out.println(code);
 				total += code;
 		}
+		//System.out.println(total);
+		total = (((4307*total)+997) % 103) % 101 ;
 		System.out.println(total);
-		total = (((4307*total)+997) % 43977) % 43979 ;
-		System.out.println(total);
-		return code;
+		return total;
 }
 		
 		
 	
-	public void QuadraticSort( String key, String value){
+	public void QuadraticSort(String key, String value){
+		boolean addedValue = false;
+		int newKey;
+		int i = 0;
 		
+		while(addedValue==false){
+			
+			for(int j = 0; j< BUCKET_SIZE; j++){
+				
+				newKey = ((int)(Integer.parseInt(key) + Math.pow(i, 2))) % MAX_SIZE_ARRAY;
+				
+				System.out.println(j + " " + key);
+				if(hashTable[newKey][j]== null){
+					hashTable[newKey][j] = value;
+					addedValue = true;
+					break;
+				}
+			}
+			i++;
+		}
 	}
 	
-	public void DoubleSort( String key, String value){
-		
-	}
 	
 	
 	
@@ -111,48 +147,4 @@ public class HashTable {
 		return total;
 
 	}
-	
-
-	
-	
-
-
-
-
-
-
-public class Hash{
-	
-	public String value;
-	public String key;
-	
-	public Hash (String value, String key){
-		value=this.value;
-		key= this.key;
-		
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-	
-	
-	
-	
-	
 }
-
-}
-
