@@ -1,5 +1,7 @@
 package comp352_Assignment4;
 
+import java.util.Scanner;
+
 public class HashTable {
 	
 	private int MAX_SIZE_ARRAY = 101;
@@ -7,7 +9,7 @@ public class HashTable {
 	String [] hashTable;
 	Boolean quadratic;
 	double DEFAULT_LOAD_FACTOR = 0.75;
-
+	Scanner key = new Scanner(System.in);
 	
 	public HashTable(){
 		hashTable = new String[MAX_SIZE_ARRAY];
@@ -129,9 +131,18 @@ public class HashTable {
 		return entryCount/MAX_SIZE_ARRAY;
 	}
 	
-	public void setRehashTreshold(int loadFactor){ 
+	public void setRehashTreshold(double loadFactor){ 
+		System.out.println("Default is: "+DEFAULT_LOAD_FACTOR);
+		System.out.println("Enter new between 0 and 1");
 		
+		loadFactor= key.nextDouble();
+		if((loadFactor >= 0 && loadFactor <= 1) && (loadFactor >= currentLoadFactor())){
+			System.out.println("ThreshFactor has change to "+loadFactor);
+			}else
+				System.out.println("Thresh is not changed");
+	
 	}
+	
 	
 	
 	public void QuadraticSort(String key, String value){
