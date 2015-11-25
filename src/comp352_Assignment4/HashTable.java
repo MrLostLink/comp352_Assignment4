@@ -6,6 +6,7 @@ public class HashTable {
 	int entryCount= 0;
 	String [] hashTable;
 	Boolean quadratic;
+	double DEFAULT_LOAD_FACTOR = 0.75;
 
 	
 	public HashTable(){
@@ -72,15 +73,6 @@ public class HashTable {
 		
 	}
 	
-	public void getIndex(String value) {
-
-		/*
-		 * convert string to key and search the key in the array and find the
-		 * index
-		 * 
-		 */
-	}
-	
 	public int hashFunc(String value){
 
 		
@@ -99,14 +91,14 @@ public class HashTable {
 		return total;
 }
 		
-	public String[] clone(){
-		String[] cloned = new String[MAX_SIZE_ARRAY];
-		
-		for(int i=0; i<hashTable.length; i++)
-			for(int j=0; j<hashTable.length; j++)
-				cloned[i] = hashTable[i];
-		
-		return cloned;
+	public void clone(HashTable cloning){
+	
+		for(int i = 0; i< hashTable.length; i++){
+			hashTable[i] = cloning.hashTable[i];
+		}
+		quadratic = cloning.quadratic;
+		entryCount = cloning.entryCount;
+		DEFAULT_LOAD_FACTOR = cloning.DEFAULT_LOAD_FACTOR;
 	}
 
 	public void keySet(){
@@ -132,6 +124,14 @@ public class HashTable {
 				System.out.println(i + "= " + hashTable[i]);
 			}
 		}
+	
+	public int currentLoadFactor(){
+		return entryCount/MAX_SIZE_ARRAY;
+	}
+	
+	public void setRehashTreshold(int loadFactor){ 
+		
+	}
 	
 	
 	public void QuadraticSort(String key, String value){

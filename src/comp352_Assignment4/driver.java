@@ -6,9 +6,15 @@ public class driver {
 		
 		HashTable test1 = new HashTable();
 		
+		
 		test1.put("hello", "hello");
 		test1.put("hello", "hello");
 		test1.keySet();
 		test1.entrySet();
+		
+		HashTable test2 = new HashTable();
+		test2.clone(test1);
+		test2.keySet();
+		
 	}
 }
