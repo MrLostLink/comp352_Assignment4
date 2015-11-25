@@ -1,4 +1,5 @@
 package comp352_Assignment4;
+
 import java.util.Scanner;
 
 public class HashTable {
@@ -7,35 +8,14 @@ public class HashTable {
 	int entryCount= 0;
 	String [] hashTable;
 	Boolean quadratic;
-	Scanner key= new Scanner(System.in);
-	double DEFAULT_LOAD_FACTOR=0.75;
+	double DEFAULT_LOAD_FACTOR = 0.75;
+	Scanner key = new Scanner(System.in);
 	
 	public HashTable(){
 		hashTable = new String[MAX_SIZE_ARRAY];
 		System.out.println("new HashTable created\n");
 		quadratic = false;
 	}
-	
-	public double currentLoadFactor(){
-		return entryCount/MAX_SIZE_ARRAY;
-	}
-	
-	public void setRehashThreshold(double newThresh){
-		System.out.println("Default is: "+DEFAULT_LOAD_FACTOR);
-		System.out.println("Enter new between 0 and 1");
-		newThresh= key.nextDouble();
-		if((newThresh >= 0 && newThresh <= 1) && (newThresh >= currentLoadFactor())){
-			System.out.println("ThreshFactor has change to "+newThresh);
-		}else
-			System.out.println("Thresh is not changed");
-			
-			
-		//
-		
-	//check if greater current and betweent 0 and 1 	
-	}
-	
-	
 	
 	// add entry to table
 	public void put(String key, String value) {
@@ -95,15 +75,6 @@ public class HashTable {
 		
 	}
 	
-	public void getIndex(String value) {
-
-		/*
-		 * convert string to key and search the key in the array and find the
-		 * index
-		 * 
-		 */
-	}
-	
 	public int hashFunc(String value){
 
 		
@@ -122,14 +93,14 @@ public class HashTable {
 		return total;
 }
 		
-	public String[] clone(){
-		String[] cloned = new String[MAX_SIZE_ARRAY];
-		
-		for(int i=0; i<hashTable.length; i++)
-			for(int j=0; j<hashTable.length; j++)
-				cloned[i] = hashTable[i];
-		
-		return cloned;
+	public void clone(HashTable cloning){
+	
+		for(int i = 0; i< hashTable.length; i++){
+			hashTable[i] = cloning.hashTable[i];
+		}
+		quadratic = cloning.quadratic;
+		entryCount = cloning.entryCount;
+		DEFAULT_LOAD_FACTOR = cloning.DEFAULT_LOAD_FACTOR;
 	}
 
 	public void keySet(){
@@ -155,6 +126,23 @@ public class HashTable {
 				System.out.println(i + "= " + hashTable[i]);
 			}
 		}
+	
+	public int currentLoadFactor(){
+		return entryCount/MAX_SIZE_ARRAY;
+	}
+	
+	public void setRehashTreshold(double loadFactor){ 
+		System.out.println("Default is: "+DEFAULT_LOAD_FACTOR);
+		System.out.println("Enter new between 0 and 1");
+		
+		loadFactor= key.nextDouble();
+		if((loadFactor >= 0 && loadFactor <= 1) && (loadFactor >= currentLoadFactor())){
+			System.out.println("ThreshFactor has change to "+loadFactor);
+			}else
+				System.out.println("Thresh is not changed");
+	
+	}
+	
 	
 	
 	public void QuadraticSort(String key, String value){
