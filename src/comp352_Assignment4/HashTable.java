@@ -3,16 +3,15 @@ package comp352_Assignment4;
 public class HashTable {
 	
 	private int MAX_SIZE_ARRAY = 101;
-	private int BUCKET_SIZE = 10;
 	int entryCount= 0;
-	String [][] hashTable;
+	String [] hashTable;
 	Boolean quadratic;
 
 	
 	public HashTable(){
-		hashTable = new String[MAX_SIZE_ARRAY][BUCKET_SIZE];
-		System.out.println("new HashTable created");
-		quadratic = true;
+		hashTable = new String[MAX_SIZE_ARRAY];
+		System.out.println("new HashTable created\n");
+		quadratic = false;
 	}
 	
 	// add entry to table
@@ -20,22 +19,21 @@ public class HashTable {
 		boolean addedValue = false;
 		int hashedKey = hashFunc(key); // replace this with hash function
 		
-			for(int j = 0; j< BUCKET_SIZE; j++){
-				if(hashTable[hashedKey][j]== null){
-					hashTable[hashedKey][j] = value;
+			if(hashTable[hashedKey]== null){
+					hashTable[hashedKey]= value;
 					addedValue = true;
-					System.out.println("Key: "+ hashedKey + ", index: " + j + ", Value: " + value);
-					break;
+					System.out.println("Value " + value + " stored in Key " + hashedKey);
+					entryCount++;
 				}
-			}
 			
 			if(addedValue == false){
 				if(quadratic)
 					QuadraticSort(Integer.toString(hashedKey), value);
 				else
 					DoubleSort(Integer.toString(hashedKey), value);
-			}
 			entryCount++;
+			}
+			
 	}
 	
 	public void DoubleSort(String key, String value){
@@ -48,16 +46,13 @@ public class HashTable {
 		
 		while(addedValue==false){
 			
-			for(int j = 0; j< BUCKET_SIZE; j++){
 				newKey = (doubleSort*i + hashedKey) % MAX_SIZE_ARRAY;
-				if(hashTable[newKey][j]== null){
-					hashTable[newKey][j] = value;
+				if(hashTable[newKey]== null){
+					hashTable[newKey] = value;
 					addedValue = true;
-					System.out.println("Key: "+ hashedKey + ", index: " + j + ", Value: " + value);
-					break;
-				}
+					System.out.println("Value " + value + " stored in Key " + newKey);
 			}
-			i++;
+				i++;
 		}
 		
 		
@@ -101,51 +96,40 @@ public class HashTable {
 		}
 		//System.out.println(total);
 		total = (((4307*total)+997) % 103) % 101 ;
-		System.out.println(total);
 		return total;
 }
 		
-	public String[][] clone(){
-		String[][] cloned = new String[MAX_SIZE_ARRAY][BUCKET_SIZE];
+	public String[] clone(){
+		String[] cloned = new String[MAX_SIZE_ARRAY];
 		
 		for(int i=0; i<hashTable.length; i++)
-			for(int j=0; j<hashTable[i].length; j++)
-				cloned[i][j] = hashTable[i][j];
+			for(int j=0; j<hashTable.length; j++)
+				cloned[i] = hashTable[i];
 		
 		return cloned;
 	}
 
 	public void keySet(){
-		System.out.print("Keys: {");
+		System.out.print("\nKeys: {");
 		int count=0;;
+		
 		for(int i=0; i<MAX_SIZE_ARRAY; i++){
-			for(int j=0; j<BUCKET_SIZE; j++){
-				if(hashTable[i][j] != null)
-					count++;
-			}
-			if(count!=0){
+			if(hashTable[i] != null){
 				System.out.print(i);
-					if(i+1!=MAX_SIZE_ARRAY)
-						System.out.print(", ");
+				count++;
+			}
+			if(count != entryCount && hashTable[i] != null)
+				System.out.print(",");
 			
 		}
-			count=0;
-	}
-		System.out.println("}");
+		System.out.println("}\n");
 }
 
 	public void entrySet(){
 			System.out.println("Set result:");
 			
 			for(int i=0; i<MAX_SIZE_ARRAY; i++){	
-				System.out.print("(" + i + "= ");
-				for(int j=0; j<BUCKET_SIZE; j++){
-						System.out.print(hashTable[i][j]);
-					if(j+1 == BUCKET_SIZE)
-						System.out.println(") ");
-					else
-						System.out.print(", ");
-				}
+				System.out.println(i + "= " + hashTable[i]);
 			}
 		}
 	
@@ -156,18 +140,16 @@ public class HashTable {
 		int i = 0;
 		
 		while(addedValue==false){
-			
-			for(int j = 0; j< BUCKET_SIZE; j++){
 				
-				newKey = ((int)(Integer.parseInt(key) + Math.pow(i, 2))) % MAX_SIZE_ARRAY;
+			newKey = ((int)(Integer.parseInt(key) + Math.pow(i, 2))) % MAX_SIZE_ARRAY;
 				
-				if(hashTable[newKey][j]== null){
-					hashTable[newKey][j] = value;
-					System.out.println("Key: "+ newKey + ", index: " + j + ", Value: " + value);
+				if(hashTable[newKey]== null){
+					hashTable[newKey]= value;
+					System.out.println("Value " + value + " stored in Key " + newKey);
 					addedValue = true;
 					break;
 				}
-			}
+			
 			i++;
 		}
 	}
