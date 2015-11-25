@@ -1,4 +1,5 @@
 package comp352_Assignment4;
+import java.util.Scanner;
 
 public class HashTable {
 	
@@ -6,13 +7,35 @@ public class HashTable {
 	int entryCount= 0;
 	String [] hashTable;
 	Boolean quadratic;
-
+	Scanner key= new Scanner(System.in);
+	double DEFAULT_LOAD_FACTOR=0.75;
 	
 	public HashTable(){
 		hashTable = new String[MAX_SIZE_ARRAY];
 		System.out.println("new HashTable created\n");
 		quadratic = false;
 	}
+	
+	public double currentLoadFactor(){
+		return entryCount/MAX_SIZE_ARRAY;
+	}
+	
+	public void setRehashThreshold(double newThresh){
+		System.out.println("Default is: "+DEFAULT_LOAD_FACTOR);
+		System.out.println("Enter new between 0 and 1");
+		newThresh= key.nextDouble();
+		if((newThresh >= 0 && newThresh <= 1) && (newThresh >= currentLoadFactor())){
+			System.out.println("ThreshFactor has change to "+newThresh);
+		}else
+			System.out.println("Thresh is not changed");
+			
+			
+		//
+		
+	//check if greater current and betweent 0 and 1 	
+	}
+	
+	
 	
 	// add entry to table
 	public void put(String key, String value) {
