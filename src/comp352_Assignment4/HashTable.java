@@ -13,6 +13,7 @@ public class HashTable {
 	private double entryCount= 0;
 	private double rehashFactor = 2;
 	private double DEFAULT_LOAD_FACTOR = 0.75;
+	private int collided=0;
 	
 	Scanner key = new Scanner(System.in);
 	
@@ -44,19 +45,116 @@ public class HashTable {
 			
 	}
 	
-	public void search(String value){
-		
-		/*Enter a string and check if its in the array 
-		 */
+
+
+	public void remove(String key) {
+
+		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
+			if (hashTable[i] == key) {
+				hashTable[i] = null;
+				System.out.println("Key " + key + " removed.");
+				entryCount--;
+			}
+		}
+
+	}
+
+	public void getString(String key) {
+
+		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
+			if (hashTable[i] == key) {
+
+				System.out.println("Key " + key + " found at: " + i);
+			}
+		}
+
 	}
 	
-	public void remove(String value){
-		
-		/* convert value to key then find the key in the array
-		 * then remove that value  
-		 */
-		
+	
+	public void printHashtableStatistics() {
+
+		boolean run = true;
+
+		System.out.println("Please select what you would like to print");
+		while (run) {
+
+			System.out.println("" + "1- Set Load Factor \n" + "2- Increase table by factor or number \n"
+					+ "3- Choose collision handling \n" + "4- Set empty marker scheme \n" + "5- Um ye...\n"
+					+ "6- Size of table \n" + "7- The load percentage \n" + "8- Number of collisons \n"
+					+ "9- Maximum collision for one cell \n" + "10-Average number of collisions over all cells \n"
+					+ "0- Exit");
+
+			switch (key.nextInt()) {
+
+			case 1:
+
+				System.out.println("Default is: " + DEFAULT_LOAD_FACTOR);
+				System.out.println("Enter new between 0 and 1");
+				double loadFactor = key.nextDouble();
+				this.setRehashTreshold(loadFactor);
+				break;
+
+			case 2:
+
+				System.out.println("Please enter a factor(eg. 1.2) to increase table size \n" + "OR \n"
+						+ "enter a whole number to add space to table");
+				double v = key.nextDouble();
+
+				this.setRehashFactor(v);
+				break;
+
+			case 3:
+				// work on this later
+				boolean input = true;
+				while (input) {
+					System.out.println("Choose collision type handling, press Q for quadratic or D for double");
+					String b = key.next();
+					if (b.equals("D")) {
+						break;
+					} else if (b.equals("Q")) {
+						quadratic = true;
+						break;
+					} else
+						System.out.println(" No...");
+				}
+				break;
+
+			case 4:
+
+				break;
+
+			case 6:
+				System.out.println("Size of table is: " + (MAX_SIZE_ARRAY - 1));
+				break;
+
+			case 7:
+				System.out.println("Load Percentage is: " + (currentLoadFactor() * 100));
+				break;
+
+			case 8:
+				System.out.println("Number of collisions: " + collided);
+
+			case 0:
+				System.out.println("Now exiting");
+				run = false;
+				break;
+
+			}
+
+		}
+
 	}
+	
+	
+	
+	public void resetHashtableStatistics(){
+		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
+			if(hashTable[i] != null){
+				hashTable[i]= null;
+			}
+		}		
+	}
+	
 	
 	public int hashFunc(String value){
 
@@ -157,8 +255,7 @@ public class HashTable {
 	}
 	
 	public void setRehashTreshold(double loadFactor){ 
-		System.out.println("Default is: "+DEFAULT_LOAD_FACTOR);
-		System.out.println("Enter new between 0 and 1");
+	
 		
 		loadFactor= key.nextDouble();
 		if((loadFactor >= 0 && loadFactor <= 1) && (loadFactor >= currentLoadFactor())){
