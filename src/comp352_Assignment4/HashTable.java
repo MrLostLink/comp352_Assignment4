@@ -1,5 +1,6 @@
 package comp352_Assignment4;
 
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public class HashTable {
@@ -14,10 +15,6 @@ public class HashTable {
 	private double rehashFactor = 2;
 	private double DEFAULT_LOAD_FACTOR = 0.75;
 	private int collided=0;
-<<<<<<< HEAD
-=======
-	
->>>>>>> origin/master
 	
 	Scanner key = new Scanner(System.in);
 	
@@ -85,34 +82,6 @@ public class HashTable {
 		}
 	}
 	
-
-
-	public void remove(String key) {
-
-		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
-			if (hashTable[i] == key) {
-				hashTable[i] = null;
-				System.out.println("Key " + key + " removed.");
-				entryCount--;
-			}
-		}
-
-	}
-
-	public void getString(String key) {
-
-		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
-			if (hashTable[i] == key) {
-
-				System.out.println("Key " + key + " found at: " + i);
-			}
-		}
-
-	}
-	
-<<<<<<< HEAD
-	
-=======
 	public void remove(String key) {
 
 		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
@@ -136,7 +105,6 @@ public class HashTable {
 
 	}
 
->>>>>>> origin/master
 	public void printHashtableStatistics() {
 
 		boolean run = true;
@@ -209,8 +177,6 @@ public class HashTable {
 
 		}
 
-<<<<<<< HEAD
-=======
 	}
 	
 	public void resetHashtableStatistics(){
@@ -219,19 +185,7 @@ public class HashTable {
 				hashTable[i]= null;
 			}
 		}		
->>>>>>> origin/master
 	}
-	
-	
-	
-	public void resetHashtableStatistics(){
-		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
-			if(hashTable[i] != null){
-				hashTable[i]= null;
-			}
-		}		
-	}
-	
 	
 	public int hashFunc(String value){
 
@@ -247,7 +201,10 @@ public class HashTable {
 				total += code;
 		}
 		//System.out.println(total);
-		total = (((4307*total)+997) % 103) % 101 ;
+		
+		BigInteger b = new BigInteger(String.valueOf((int)MAX_SIZE_ARRAY));
+		BigInteger c = b.nextProbablePrime();
+		total = (((437*total)+997) % c.intValue()) % (int)MAX_SIZE_ARRAY ;
 		return total;
 }
 	
@@ -272,8 +229,12 @@ public class HashTable {
 	}
 	
 	public void DoubleSort(String key, String value){
+		
+		BigInteger b = new BigInteger(String.valueOf((int)MAX_SIZE_ARRAY));
+		BigInteger c = b.nextProbablePrime();
+
 		int hashedKey = hashFunc(key);
-		int doubleSort =(( 107 -(hashedKey % 103) % 101));
+		int doubleSort =(( 107 -(hashedKey % c.intValue()) % (int) MAX_SIZE_ARRAY));
 		
 		boolean addedValue = false;
 		double newKey;
@@ -334,13 +295,7 @@ public class HashTable {
 		return entryCount/MAX_SIZE_ARRAY;
 	}
 	
-	public void setRehashTreshold(double loadFactor){ 
-<<<<<<< HEAD
-	
-=======
->>>>>>> origin/master
-		
-		
+	public void setRehashTreshold(double loadFactor){
 		
 		if((loadFactor >= 0 && loadFactor <= 1) && (loadFactor >= currentLoadFactor())){
 			System.out.println("ThreshFactor has change to "+loadFactor);
