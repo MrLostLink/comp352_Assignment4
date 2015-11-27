@@ -8,41 +8,81 @@ public class HashTable {
 	private String [] hashTable;
 	
 	private int rehashNumber = 0;
-	private int MAX_SIZE_ARRAY = 101;
+	private double MAX_SIZE_ARRAY = 101;
 	
 	private double entryCount= 0;
 	private double rehashFactor = 2;
 	private double DEFAULT_LOAD_FACTOR = 0.75;
 	private int collided=0;
+<<<<<<< HEAD
+=======
+	
+>>>>>>> origin/master
 	
 	Scanner key = new Scanner(System.in);
 	
 	public HashTable(){
-		hashTable = new String[MAX_SIZE_ARRAY];
+		hashTable = new String[(int) MAX_SIZE_ARRAY];
 		System.out.println("new HashTable created\n");
-		quadratic = false;
+		quadratic = true;
 	}
 	
+	public double size(){
+		return entryCount;
+	}
 	// add entry to table
 	public void put(String key, String value) {
 		boolean addedValue = false;
 		int hashedKey = hashFunc(key); // replace this with hash function
 		
-			if(hashTable[hashedKey]== null){
-					hashTable[hashedKey]= value;
-					addedValue = true;
-					System.out.println("Value " + value + " stored in Key " + hashedKey);
-					entryCount++;
-				}
-			
-			if(addedValue == false){
-				if(quadratic)
-					QuadraticSort(Integer.toString(hashedKey), value);
-				else
-					DoubleSort(Integer.toString(hashedKey), value);
-			entryCount++;
+		if(hashTable[hashedKey]== null){
+				hashTable[hashedKey]= value;
+				addedValue = true;
+				System.out.println("Value " + value + " stored in Key " + hashedKey);
+				entryCount++;
 			}
 			
+		if(addedValue == false){
+			if(quadratic){
+				QuadraticSort(Integer.toString(hashedKey), value);
+				collided++;
+			}
+			else{
+				DoubleSort(Integer.toString(hashedKey), value);
+				collided++;
+			}
+			entryCount++;
+			}
+		
+		if(currentLoadFactor() > DEFAULT_LOAD_FACTOR){
+			
+			if(rehashNumber==0){
+				String[] temp = hashTable;
+				double previousSize = MAX_SIZE_ARRAY;
+				MAX_SIZE_ARRAY = MAX_SIZE_ARRAY * rehashFactor;
+				
+				hashTable = new String[(int) MAX_SIZE_ARRAY];
+				for(int i=0; i<previousSize;i++){
+					if(temp[i]!=null);
+						hashTable[i] = temp[i];
+				}
+			}
+			
+			if(rehashFactor==0){
+				String[] temp = hashTable;
+				double previousSize = MAX_SIZE_ARRAY;
+				MAX_SIZE_ARRAY = MAX_SIZE_ARRAY + rehashNumber;
+				
+				hashTable = new String[(int) MAX_SIZE_ARRAY];
+				for(int i=0; i<previousSize;i++){
+					if(temp[i]!=null);
+						hashTable[i] = temp[i];
+				}
+				
+			}
+			
+			
+		}
 	}
 	
 
@@ -70,7 +110,33 @@ public class HashTable {
 
 	}
 	
+<<<<<<< HEAD
 	
+=======
+	public void remove(String key) {
+
+		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
+			if (hashTable[i] == key) {
+				hashTable[i] = null;
+				System.out.println("Key " + key + " removed.");
+				entryCount--;
+			}
+		}
+
+	}
+
+	public void getString(String key) {
+
+		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
+			if (hashTable[i] == key) {
+
+				System.out.println("Key " + key + " found at: " + i);
+			}
+		}
+
+	}
+
+>>>>>>> origin/master
 	public void printHashtableStatistics() {
 
 		boolean run = true;
@@ -143,6 +209,17 @@ public class HashTable {
 
 		}
 
+<<<<<<< HEAD
+=======
+	}
+	
+	public void resetHashtableStatistics(){
+		for (int i = 0; i < MAX_SIZE_ARRAY; i++) {
+			if(hashTable[i] != null){
+				hashTable[i]= null;
+			}
+		}		
+>>>>>>> origin/master
 	}
 	
 	
@@ -176,15 +253,15 @@ public class HashTable {
 	
 	public void QuadraticSort(String key, String value){
 		boolean addedValue = false;
-		int newKey;
+		double newKey;
 		int i = 0;
 		
 		while(addedValue==false){
 				
 			newKey = ((int)(Integer.parseInt(key) + Math.pow(i, 2))) % MAX_SIZE_ARRAY;
 				
-				if(hashTable[newKey]== null){
-					hashTable[newKey]= value;
+				if(hashTable[(int) newKey]== null){
+					hashTable[(int) newKey]= value;
 					System.out.println("Value " + value + " stored in Key " + newKey);
 					addedValue = true;
 					break;
@@ -199,14 +276,14 @@ public class HashTable {
 		int doubleSort =(( 107 -(hashedKey % 103) % 101));
 		
 		boolean addedValue = false;
-		int newKey;
+		double newKey;
 		int i =1;  
 		
 		while(addedValue==false){
 			
 				newKey = (doubleSort*i + hashedKey) % MAX_SIZE_ARRAY;
-				if(hashTable[newKey]== null){
-					hashTable[newKey] = value;
+				if(hashTable[(int) newKey]== null){
+					hashTable[(int) newKey] = value;
 					addedValue = true;
 					System.out.println("Value " + value + " stored in Key " + newKey);
 			}
@@ -224,6 +301,9 @@ public class HashTable {
 		quadratic = cloning.quadratic;
 		entryCount = cloning.entryCount;
 		DEFAULT_LOAD_FACTOR = cloning.DEFAULT_LOAD_FACTOR;
+		rehashNumber = cloning.rehashNumber;
+		rehashFactor = cloning.rehashFactor;
+		MAX_SIZE_ARRAY = cloning.MAX_SIZE_ARRAY;
 	}
 	
 	public void keySet(){
@@ -255,9 +335,13 @@ public class HashTable {
 	}
 	
 	public void setRehashTreshold(double loadFactor){ 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> origin/master
 		
-		loadFactor= key.nextDouble();
+		
+		
 		if((loadFactor >= 0 && loadFactor <= 1) && (loadFactor >= currentLoadFactor())){
 			System.out.println("ThreshFactor has change to "+loadFactor);
 			}else
@@ -289,6 +373,4 @@ public class HashTable {
 			}
 		}
 	}
-
-	
 }
