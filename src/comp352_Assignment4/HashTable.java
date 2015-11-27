@@ -7,9 +7,9 @@ public class HashTable {
 	
 	private Boolean quadratic;
 	private String [] hashTable;
-	
 	private int rehashNumber = 0;
 	private double MAX_SIZE_ARRAY = 101;
+	
 	
 	private double entryCount= 0;
 	private double rehashFactor = 2;
@@ -20,8 +20,10 @@ public class HashTable {
 	
 	public HashTable(){
 		hashTable = new String[(int) MAX_SIZE_ARRAY];
+	
 		System.out.println("new HashTable created\n");
 		quadratic = true;
+		
 	}
 	
 	public double size(){
@@ -130,20 +132,35 @@ public class HashTable {
 
 			case 2:
 
-				System.out.println("Please enter a factor(eg. 1.2) to increase table size \n" + "OR \n"
-						+ "enter a whole number to add space to table");
-				double v = key.nextDouble();
-
-				this.setRehashFactor(v);
+				System.out.println("Press \"N\" to adjust the rehash Number or Press \"F\" to adjust the rehash Factor");
+				String ans = key.next(); 
+				while(true){
+					if(ans.equalsIgnoreCase("n")){
+						System.out.print("Enter rehash Number: ");
+						int a = key.nextInt();
+						setRehashFactor(a);
+						break;
+					}
+					if(ans.equalsIgnoreCase("f")){
+						System.out.print("Enter rehash Factor: ");
+						double b = key.nextDouble();
+						setRehashFactor(b);
+						break;
+					}
+					else
+						System.out.println("No...");
+				}
+				
 				break;
 
 			case 3:
-				// work on this later
+				
 				boolean input = true;
 				while (input) {
 					System.out.println("Choose collision type handling, press Q for quadratic or D for double");
 					String b = key.next();
 					if (b.equals("D")) {
+						quadratic = false;
 						break;
 					} else if (b.equals("Q")) {
 						quadratic = true;
@@ -156,7 +173,11 @@ public class HashTable {
 			case 4:
 
 				break;
-
+				
+			case 5:
+				System.out.println("Ye");
+				break;
+			
 			case 6:
 				System.out.println("Size of table is: " + (MAX_SIZE_ARRAY - 1));
 				break;
@@ -315,6 +336,8 @@ public class HashTable {
 				rehashFactor = 0;
 				System.out.println("New Rehash Number: " + rehashNumber);
 			}
+			else
+				System.out.println("Invalid rehash Number! \nBack to Menu!");
 
 		}
 		else if(factorOrNumber instanceof Double){
@@ -326,6 +349,8 @@ public class HashTable {
 				rehashNumber = 0;
 				System.out.println("New Rehash Factor: " + rehashFactor);
 			}
+			else
+				System.out.println("Invalid rehash Factor! \nBack to Menu!");
 		}
 	}
 }

@@ -107,6 +107,8 @@ public class driver {
 		test1.put("apple", "apple");
 		test1.put("apple", "apple");
 		test1.put("apple", "apple");
+		
+		test1.printHashtableStatistics();
 		test1.keySet();
 		test1.entrySet();
 
